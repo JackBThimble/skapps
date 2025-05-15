@@ -34,18 +34,12 @@
                 {#each themes as theme}
                     <li>
                         <label class="label cursor-pointer justify-start gap-2">
-                            <input
-                                type="radio"
-                                name="theme-dropdown"
-                                class="radio radio-primary"
-                                aria-label="{theme}"
-                                value={theme}
-                                checked={dataTheme.toLowerCase() === theme.toLowerCase()}
-                                on:change={() => {
-                                    setTheme(theme);
-                                }}
-                            />
-                            <span class="label-text">{theme}</span>
+                            <button 
+                                class="w-full text-left px-2 py-1 rounded-lg {dataTheme.toLowerCase() === theme.toLowerCase() ? 'bg-primary text-primary-content' : ''}"
+                                onclick={() => setTheme(theme)}
+                            >
+                                {theme}
+                            </button>
                         </label>
                     </li>
                 {/each}
