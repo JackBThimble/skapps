@@ -1,5 +1,12 @@
-run = "cowsay Configure me!"
-entrypoint = "README.md"
+run = 'npm run dev'
+entrypoint = "src/routes/+page.svelte"
+modules = ["nodejs-23"]
+language = "typescript"
 
 [nix]
 channel = "stable-24_05"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
+exposeLocalhost = true
