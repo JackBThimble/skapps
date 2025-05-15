@@ -27,7 +27,9 @@
         class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
         aria-label="{theme}"
         value={theme}
-        onselect={() => {
+        checked={dataTheme.toLowerCase() === themes[i].toLowerCase()}
+        autocomplete="on"
+        onclick={() => {
             localStorage.setItem('theme', themes[i].toLowerCase());
             dataTheme = theme;
             document.documentElement.setAttribute('data-theme', themes[i].toLowerCase());
