@@ -6,10 +6,10 @@
         'Light', 'Dark', 'Cupcake', 'Bumblebee', 'Emerald', 'Corporate', 'Synthwave', 'Retro', 'Cyberpunk', 'Valentine', 'Halloween', 'Garden', 'Forest', 'Aqua', 'Lofi', 'Pastel', 'Fantasy', 'Wireframe', 'Black', 'Luxury', 'Dracula', 'Cmyk', 'Autumn', 'Business', 'Acid', 'Lemonade', 'Night', 'Coffee', 'Sunset', 'Winter', 'Dim', 'Nord', 'Sunrise', 'Abyss', 'Silk', 'Caramellatte'
     ]);
     onMount(() => {
-        let prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; 
-        dataTheme = localStorage.getItem('theme') ?? (prefersDark) ? 'Dark' : 'Light';
-        menuOpen = true;
-        
+        let prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let storedTheme = localStorage.getItem('theme');
+        dataTheme = storedTheme ? storedTheme.charAt(0).toUpperCase() + storedTheme.slice(1) : prefersDark ? 'Dark' : 'Light';
+        menuOpen = false;
     })
 </script>
  <div class="flex grow justify-end px-2">
