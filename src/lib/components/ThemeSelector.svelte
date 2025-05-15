@@ -1,4 +1,3 @@
-
 <script lang="ts">
     import { onMount } from 'svelte';
     let dataTheme = $state('');
@@ -38,10 +37,13 @@
                             <input
                                 type="radio"
                                 name="theme-dropdown"
-                                class="radio theme-controller"
+                                class="radio radio-primary"
+                                aria-label="{theme}"
                                 value={theme}
-                                checked={dataTheme === theme}
-                                on:change={() => setTheme(theme)}
+                                checked={dataTheme.toLowerCase() === theme.toLowerCase()}
+                                on:change={() => {
+                                    setTheme(theme);
+                                }}
                             />
                             <span class="label-text">{theme}</span>
                         </label>
