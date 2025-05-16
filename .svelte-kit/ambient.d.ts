@@ -26,6 +26,7 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const OPENWEATHER_API_KEY: string;
 	export const REPLIT_PID1_FLAG_REPLIT_RTLD_LOADER: string;
 	export const npm_command: string;
 	export const npm_config_userconfig: string;
@@ -137,6 +138,7 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		OPENWEATHER_API_KEY: string;
 		REPLIT_PID1_FLAG_REPLIT_RTLD_LOADER: string;
 		npm_command: string;
 		npm_config_userconfig: string;
