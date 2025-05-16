@@ -24,11 +24,9 @@
                   <input
         type="radio"
         name="theme-dropdown"
-        class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start"
+        class="theme-controller w-full btn btn-sm btn-block btn-ghost justify-start {dataTheme.toLowerCase() === theme.toLowerCase() ? 'btn-active' : ''}"
         aria-label="{theme}"
         value={theme}
-        checked={dataTheme.toLowerCase() === themes[i].toLowerCase()}
-        autocomplete="on"
         onclick={() => {
             localStorage.setItem('theme', themes[i].toLowerCase());
             dataTheme = theme;
