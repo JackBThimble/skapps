@@ -1,6 +1,12 @@
 {
 	"/": [],
 	"/2048": [],
+	"/api/geocode": [
+		"src/routes/api/geocode/+server.ts"
+	],
+	"/api/weather": [
+		"src/routes/api/weather/+server.ts"
+	],
 	"/calc": [],
 	"/chat": [],
 	"/notes": [],
