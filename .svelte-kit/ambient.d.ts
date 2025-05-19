@@ -26,6 +26,7 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const VITE_OPENWEATHER_API_KEY: string;
 	export const SHELL: string;
 	export const npm_command: string;
 	export const WINDOWID: string;
@@ -33,6 +34,7 @@ declare module '$env/static/private' {
 	export const COLORTERM: string;
 	export const CSF_MDTVTexturesDirectory: string;
 	export const npm_config_cache: string;
+	export const NVIM: string;
 	export const CSF_DrawPluginDefaults: string;
 	export const VCPKG_DISABLE_METRICS: string;
 	export const NODE: string;
@@ -41,10 +43,12 @@ declare module '$env/static/private' {
 	export const XDG_CONFIG_HOME: string;
 	export const COLOR: string;
 	export const npm_config_local_prefix: string;
+	export const NVIM_LOG_FILE: string;
 	export const CSF_OCCTResourcePath: string;
 	export const npm_config_globalconfig: string;
 	export const CSF_STEPDefaults: string;
 	export const EDITOR: string;
+	export const MASON: string;
 	export const XDG_SEAT: string;
 	export const PWD: string;
 	export const VCPKG_ROOT: string;
@@ -64,6 +68,7 @@ declare module '$env/static/private' {
 	export const npm_package_version: string;
 	export const STARSHIP_SHELL: string;
 	export const WAYLAND_DISPLAY: string;
+	export const ASDF_INSTALL_PATH: string;
 	export const DCONF_PROFILE: string;
 	export const INIT_CWD: string;
 	export const CSF_ShadersDirectory: string;
@@ -93,6 +98,7 @@ declare module '$env/static/private' {
 	export const CASROOT: string;
 	export const npm_execpath: string;
 	export const XDG_RUNTIME_DIR: string;
+	export const MYVIMRC: string;
 	export const DEBUGINFOD_URLS: string;
 	export const npm_package_json: string;
 	export const DOCKER_HOST: string;
@@ -106,8 +112,10 @@ declare module '$env/static/private' {
 	export const PATH: string;
 	export const CSF_TObjDefaults: string;
 	export const npm_config_node_gyp: string;
+	export const ASDF_INSTALL_TYPE: string;
 	export const QT_ENABLE_HIGHDPI_SCALING: string;
 	export const DBUS_SESSION_BUS_ADDRESS: string;
+	export const ASDF_INSTALL_VERSION: string;
 	export const npm_config_global_prefix: string;
 	export const MAIL: string;
 	export const ALACRITTY_WINDOW_ID: string;
@@ -147,6 +155,7 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		VITE_OPENWEATHER_API_KEY: string;
 		SHELL: string;
 		npm_command: string;
 		WINDOWID: string;
@@ -154,6 +163,7 @@ declare module '$env/dynamic/private' {
 		COLORTERM: string;
 		CSF_MDTVTexturesDirectory: string;
 		npm_config_cache: string;
+		NVIM: string;
 		CSF_DrawPluginDefaults: string;
 		VCPKG_DISABLE_METRICS: string;
 		NODE: string;
@@ -162,10 +172,12 @@ declare module '$env/dynamic/private' {
 		XDG_CONFIG_HOME: string;
 		COLOR: string;
 		npm_config_local_prefix: string;
+		NVIM_LOG_FILE: string;
 		CSF_OCCTResourcePath: string;
 		npm_config_globalconfig: string;
 		CSF_STEPDefaults: string;
 		EDITOR: string;
+		MASON: string;
 		XDG_SEAT: string;
 		PWD: string;
 		VCPKG_ROOT: string;
@@ -185,6 +197,7 @@ declare module '$env/dynamic/private' {
 		npm_package_version: string;
 		STARSHIP_SHELL: string;
 		WAYLAND_DISPLAY: string;
+		ASDF_INSTALL_PATH: string;
 		DCONF_PROFILE: string;
 		INIT_CWD: string;
 		CSF_ShadersDirectory: string;
@@ -214,6 +227,7 @@ declare module '$env/dynamic/private' {
 		CASROOT: string;
 		npm_execpath: string;
 		XDG_RUNTIME_DIR: string;
+		MYVIMRC: string;
 		DEBUGINFOD_URLS: string;
 		npm_package_json: string;
 		DOCKER_HOST: string;
@@ -227,8 +241,10 @@ declare module '$env/dynamic/private' {
 		PATH: string;
 		CSF_TObjDefaults: string;
 		npm_config_node_gyp: string;
+		ASDF_INSTALL_TYPE: string;
 		QT_ENABLE_HIGHDPI_SCALING: string;
 		DBUS_SESSION_BUS_ADDRESS: string;
+		ASDF_INSTALL_VERSION: string;
 		npm_config_global_prefix: string;
 		MAIL: string;
 		ALACRITTY_WINDOW_ID: string;
