@@ -17,6 +17,7 @@ export const GET: RequestHandler = async ({ url }) => {
   try {
     const locationData: GeocodingResponse =
       await geocodingService.getCoordinates(query);
+    console.log({locationData: JSON.stringify(locationData)});
     return json(locationData);
   } catch (error) {
     console.error("Geocoding API error:", error);

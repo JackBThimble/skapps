@@ -37,6 +37,7 @@ declare module '$env/static/private' {
 	export const __EGL_VENDOR_LIBRARY_FILENAMES: string;
 	export const NODE: string;
 	export const REPLIT_DOMAINS: string;
+	export const VITE_OPENWEATHER_API_KEY: string;
 	export const XDG_DATA_HOME: string;
 	export const REPL_OWNER_ID: string;
 	export const XDG_CONFIG_HOME: string;
@@ -148,6 +149,7 @@ declare module '$env/dynamic/private' {
 		__EGL_VENDOR_LIBRARY_FILENAMES: string;
 		NODE: string;
 		REPLIT_DOMAINS: string;
+		VITE_OPENWEATHER_API_KEY: string;
 		XDG_DATA_HOME: string;
 		REPL_OWNER_ID: string;
 		XDG_CONFIG_HOME: string;

@@ -52,8 +52,10 @@
     };
 
     const getUserLocation = () => {
+        console.log("Requesting user location...");
         if (!navigator.geolocation) {
             locationError = "Geolocation not supported by your browser";
+            console.log(locationError);
             return;
         }
 
@@ -63,8 +65,9 @@
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const { latitude, longitude } = position.coords;
-                userCoords!.longitude = longitude;
-                userCoords!.latitude = latitude;
+                userCoords.longitude = longitude;
+                userCoords.latitude = latitude;
+                console.log(`User location: ${latitude}, ${longitude}`);
                 isloadingLocation = false;
             },
             (error) => {
@@ -73,6 +76,7 @@
                     case error.PERMISSION_DENIED:
                         locationError =
                             "User denied the request for geolocation";
+                        
                         break;
                     case error.POSITION_UNAVAILABLE:
                         locationError = "Location information unavailable";
@@ -85,6 +89,7 @@
                         locationError = "An unknown error occured";
                         break;
                 }
+                console.log(locationError);
             },
             {
                 enableHighAccuracy: false,
@@ -95,6 +100,7 @@
     };
 
     const loadWeatherData = async() => {
+        console.log("Loading weather data...");
         loading = true;
         try {
             const response = await fetch(`/api/weather?lat=${userCoords.latitude}&lon=${userCoords.longitude}&q=${weatherType}&units=${unitSystem}`);
@@ -115,9 +121,11 @@
             } else {
                 throw new Error("Invalid weather type");
             }
+            console.log(weather);
         }
         catch (e) {
             error = e.message;
+            console.log(error);
         }
         finally {
             loading = false;
@@ -125,13 +133,16 @@
         
     }
     onMount(() => {
+        console.log("Mounted");
         try {
             getUserLocation();
             if (userCoords.latitude && userCoords.longitude) {
                 loadWeatherData();
                 console.log({userCoords});
             }
-        } catch {}
+        } catch {
+            error = "Failed to load weather data";
+        }
     });
 </script>
 
@@ -155,13 +166,10 @@
         />
     </div>
 
+    {#if loading}
+        <div class="loading loading-spinner" ></div>
+    {/if}
     {#if weather}
-        {#if city}
-        <p>Name: {city}</p>
-        {/if}
-        {#if country}
-        <p>Country: {country}</p>
-        {/if}
         <p>Timezone: {weather.timezone}</p>
         <p>Longitude: {weather.lon}</p>
         <p>Latitude: {weather.lat}</p>

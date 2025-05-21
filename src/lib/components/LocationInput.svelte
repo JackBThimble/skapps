@@ -29,8 +29,7 @@
     let locationInput = $state("");
     let isLoading = $state(false);
     let error = $state("");
-    let geocodingService: GeocodingService;
-    let geocodingResponse: GeocodingResponse = $state({});
+    let geocodingResponse: GeocodingResponse | GeocodingError = $state({});
     async function handleSearch() {
         if (!locationInput.trim()) {
             error = "Please enter a location";
@@ -41,8 +40,8 @@
         isLoading = true;
         onSearchStart();
         try {
-            const result = await fetch(`/api/geocoding?q=${locationInput}`);
-            onSuccess(await result.json());
+            geocodingResponse = await fetch(`/api/geocoding?q=${locationInput}`);
+            onSuccess(await geocodingResponse.json());
         } catch (e) {
             error =
                 e instanceof GeocodingError
