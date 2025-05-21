@@ -1,10 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import type {
-        GeocodingResponse,
-        GeocodingService,
-    } from "$lib/services/api/geocoding/types";
     import LocationInput from "$lib/components/LocationInput.svelte";
     import type {
         CurrentWeather,
@@ -13,9 +9,7 @@
         OneCallResponse,
         UnitSystem,
     } from "$lib/services/api/weather/types";
-    import weatherService from "$lib/services/api/weather";
     import { goto } from "$app/navigation";
-    import { createGeocodingService } from "$lib/services/api/geocoding";
 
     let data = $props();
     type Coordinates = {
@@ -34,7 +28,7 @@
     let error: string | null = null;
     let locationError: string | null = $state(null);
     let isloadingLocation = $state(true);
-    let geocodingService: GeocodingService | null = $state(null);
+    let weatherType: string = $state("all");
 
     const formatTemp = (temp: number) =>
         `${Math.round(temp)}°${unitSystem === "imperial" ? "F" : "C"}`;
@@ -100,20 +94,42 @@
         );
     };
 
-    async function handleSearch() {
-        if (!city) return;
+    const loadWeatherData = async() => {
+        loading = true;
         try {
-        } catch {}
+            const response = await fetch(`/api/weather?lat=${userCoords.latitude}&lon=${userCoords.longitude}&q=${weatherType}&units=${unitSystem}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch weather data");
+            }
+            if (weatherType === "all") {
+                weather = await response.json();
+                currentWeather = weather.current;
+                dailyForecast = weather.daily;
+                hourlyForecast = weather.hourly;
+            } else if (weatherType === "current") {
+                currentWeather = await response.json();
+            } else if (weatherType === "daily") {
+                dailyForecast = await response.json();
+            } else if (weatherType === "hourly") {
+                hourlyForecast = await response.json();
+            } else {
+                throw new Error("Invalid weather type");
+            }
+        }
+        catch (e) {
+            error = e.message;
+        }
+        finally {
+            loading = false;
+        } 
+        
     }
     onMount(() => {
-        geocodingService = createGeocodingService({
-            apiKey: import.meta.env.VITE_OPENWEATHERMAP_API_KEY,
-        });
-
         try {
             getUserLocation();
-            if (userCoords) {
+            if (userCoords.latitude && userCoords.longitude) {
                 loadWeatherData();
+                console.log({userCoords});
             }
         } catch {}
     });
@@ -125,17 +141,27 @@
     <div>
         <LocationInput
             onSuccess={(result) => {
-                loadWeatherData(result.lat, result.lon);
+                userCoords = {
+                    latitude: result.lat,
+                    longitude: result.lon
+                }
+                loadWeatherData();
             }}
             onError={(e) => {
                 locationError = e.message;
             }}
-            onSearchEnd={() => {}}
-            onSearchStart={() => {}}
+            onSearchEnd={() => {isloadingLocation = false}}
+            onSearchStart={() => {isloadingLocation = true}}
         />
     </div>
 
     {#if weather}
+        {#if city}
+        <p>Name: {city}</p>
+        {/if}
+        {#if country}
+        <p>Country: {country}</p>
+        {/if}
         <p>Timezone: {weather.timezone}</p>
         <p>Longitude: {weather.lon}</p>
         <p>Latitude: {weather.lat}</p>

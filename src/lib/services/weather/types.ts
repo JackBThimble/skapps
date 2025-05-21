@@ -1,7 +1,25 @@
 /**
  * @see https://openweathermap.org/api/one-call-api for more details
  */
-
+export interface WeatherService {
+  getCurrentWeather: (lat: number, lon: number) => Promise<CurrentWeather>;
+  getDailyForecast: (
+    lat: number,
+    lon: number,
+    days?: number,
+  ) => Promise<Daily[]>;
+  getHourlyForecast: (
+    lat: number,
+    lon: number,
+    hours?: number,
+  ) => Promise<Hourly[]>;
+  getCompleteWeatherData: (
+    lat: number,
+    lon: number,
+    config?: WeatherApiConfig,
+    exclude?: string[]
+  ) => Promise<OneCallResponse>;
+}
 /**
  * Units of measurement
  */
@@ -358,8 +376,8 @@ export function isWeatherApiError(response: any) {
 }
 
 export interface WeatherApiConfig {
-  apiKey: string;
-  baseUrl: string;
+  apiKey?: string;
+  baseUrl?: string;
   units?: UnitSystem;
   lang?: string;
 }

@@ -1,14 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { browser } from "$app/environment";
-    import {
-        createGeocodingService,
-        GeocodingError,
-    } from "$lib/services/api/geocoding";
     import type {
         GeocodingResponse,
-        GeocodingService,
-        GeocodingConfig,
     } from "$lib/services/api/geocoding/types";
 
     type LocationInputProps = {
@@ -31,36 +25,15 @@
         inputClass = "",
     }: LocationInputProps = $props();
 
+    
     let locationInput = $state("");
     let isLoading = $state(false);
     let error = $state("");
     let geocodingService: GeocodingService;
-
-    onMount(() => {
-        if (browser) {
-            const envApiKey = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
-            const key = apiKey || envApiKey;
-            const geocodingConfig: GeocodingConfig = {
-                apiKey: key,
-            };
-
-            if (key) {
-                geocodingService = createGeocodingService({ apiKey: key });
-            } else {
-                error = "OpenWeatherMap API key is not configured";
-                onError({ message: error });
-            }
-        }
-    });
-
+    let geocodingResponse: GeocodingResponse = $state({});
     async function handleSearch() {
         if (!locationInput.trim()) {
             error = "Please enter a location";
-            onError({ message: error });
-            return;
-        }
-        if (!geocodingService) {
-            error = "Geocoding service is not initialized";
             onError({ message: error });
             return;
         }
@@ -68,8 +41,8 @@
         isLoading = true;
         onSearchStart();
         try {
-            const result = await geocodingService.getCoordinates(locationInput);
-            onSuccess(result);
+            const result = await fetch(`/api/geocoding?q=${locationInput}`);
+            onSuccess(await result.json());
         } catch (e) {
             error =
                 e instanceof GeocodingError

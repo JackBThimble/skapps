@@ -7,7 +7,7 @@ import {
   type CurrentWeather,
   type Daily,
   type Hourly,
-} from "./types";
+  type WeatherService } from "./types";
 
 /**
  * Default configuration for the Weather API
@@ -19,31 +19,19 @@ const defaultConfig: WeatherApiConfig = {
   lang: "en",
 };
 
-export interface WeatherService {
-  getCurrentWeather: (lat: number, lon: number) => Promise<CurrentWeather>;
-  getDailyForecast: (
-    lat: number,
-    lon: number,
-    days?: number,
-  ) => Promise<Daily[]>;
-  getHourlyForecast: (
-    lat: number,
-    lon: number,
-    hours?: number,
-  ) => Promise<Hourly[]>;
-  getCompleteWeatherData: (
-    lat: number,
-    lon: number,
-  ) => Promise<OneCallResponse>;
-}
 
+
+export const createWeatherService =(config: WeatherApiConfig = defaultConfig):WeatherService => {
+    const cwsConfig = {
+      ...defaultConfig, ...config
+    };
 /**
  * Fetches weather data from the OpenWeatherMap One Call API
  */
 const fetchWeatherData = async (
   lat: number,
   lon: number,
-  config = defaultConfig,
+  config = cwsConfig,
   exclude?: string[],
 ): Promise<OneCallResponse> => {
   const excludeParams = exclude?.length ? `&exclude=${exclude.join(",")}` : "";
@@ -77,7 +65,7 @@ const fetchWeatherData = async (
 const getCurrentWeather = async (
   lat: number,
   lon: number,
-  config = defaultConfig,
+  config = cwsConfig,
 ): Promise<CurrentWeather> => {
   const data = await fetchWeatherData(lat, lon, config, [
     "minutely",
@@ -95,7 +83,7 @@ const getDailyForecast = async (
   lat: number,
   lon: number,
   days = 7,
-  config = defaultConfig,
+  config = cwsConfig,
 ): Promise<Daily[]> => {
   const data = await fetchWeatherData(lat, lon, config, [
     "current",
@@ -113,7 +101,7 @@ const getHourlyForecast = async (
   lat: number,
   lon: number,
   hours = 24,
-  config = defaultConfig,
+  config = cwsConfig,
 ): Promise<Hourly[]> => {
   const data = await fetchWeatherData(lat, lon, config, [
     "current",
@@ -130,19 +118,15 @@ const getHourlyForecast = async (
 const getCompleteWeatherData = async (
   lat: number,
   lon: number,
-  config = defaultConfig,
+  config = cwsConfig,
+  exclude?: string[]
 ): Promise<OneCallResponse> => {
-  return fetchWeatherData(lat, lon, config);
+  return fetchWeatherData(lat, lon, config, exclude);
 };
-
-/**
- * Weather service with methods to interact with the OpenWeatherMap API
- */
-export const weatherService: WeatherService = {
-  getCurrentWeather,
-  getDailyForecast,
-  getHourlyForecast,
-  getCompleteWeatherData,
-};
-
-export default weatherService;
+  return {
+    getCurrentWeather,
+    getDailyForecast,
+    getHourlyForecast,
+    getCompleteWeatherData
+  }
+}
