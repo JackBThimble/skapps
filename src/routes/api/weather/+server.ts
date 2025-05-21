@@ -11,8 +11,8 @@ import type {
   WeatherApiError,
 } from "$lib/services/weather/types";
 import { isWeatherApiError } from "$lib/services/weather/types";
-import { VITE_OPENWEATHER_API_KEY } from "$env/static/private";
 
+const VITE_OPENWEATHER_API_KEY = process.env["VITE_OPENWEATHER_API_KEY"];
 export const GET: RequestHandler = async ({ url }) => {
   const lat = url.searchParams.get("lat");
   const lon = url.searchParams.get("lon");
