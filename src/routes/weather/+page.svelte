@@ -13,12 +13,15 @@
 
     let data = $props();
     type Coordinates = {
-        latitude: number;
-        longitude: number;
+        latitude: number | null;
+        longitude: number | null;
     };
 
     let city: string | null = $state(null);
-    let userCoords: Coordinates | undefined = $state();
+    let userCoords: Coordinates | null = $state({
+        latitude: null,
+        longitude: null,
+    });
     let weather: OneCallResponse | null = $state(null);
     let currentWeather: CurrentWeather | null = $state(null);
     let dailyForecast: Daily[] | undefined = $state([]);
@@ -143,6 +146,9 @@
         } catch {
             error = "Failed to load weather data";
         }
+        finally {
+            loading = false;
+        }
     });
 </script>
 
@@ -166,9 +172,19 @@
         />
     </div>
 
+    <div> 
+        <button class="btn btn-primary" onclick={() => {getUserLocation()}}>Get Location</button>
+    </div>
+    {#if locationError} 
+        <p>{locationError}</p>
+    {/if}
     {#if loading}
         <div class="loading loading-spinner" ></div>
     {/if}
+    {#if error}
+        <p class="text-error">{error}</p> 
+    {/if}
+    
     {#if weather}
         <p>Timezone: {weather.timezone}</p>
         <p>Longitude: {weather.lon}</p>
